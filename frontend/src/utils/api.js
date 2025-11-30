@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://127.0.0.1:5000", // Backend URL
+  baseURL: "https://psu-certificate-app-6.onrender.com/", // Backend URL
 });
 
 api.interceptors.request.use((config) => {

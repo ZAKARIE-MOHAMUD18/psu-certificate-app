@@ -17,7 +17,7 @@ app.config["JWT_SECRET_KEY"] = "super-secret-key"
 
 db.init_app(app)
 jwt.init_app(app)
-CORS(app, origins=["http://localhost:5173", "http://127.0.0.1:5173"], supports_credentials=True)
+CORS(app, origins=["http://localhost:5173", "https://psu-certificate-verification.netlify.app/"], supports_credentials=True)
 
 app.register_blueprint(auth_bp)
 app.register_blueprint(courses_bp)
