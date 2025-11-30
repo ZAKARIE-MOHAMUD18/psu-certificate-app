@@ -1,5 +1,6 @@
 from flask import Flask
-from extensions import db, jwt, CORS
+from extensions import db, jwt
+from flask_cors import CORS
 from routes.auth import auth_bp
 from routes.courses import courses_bp
 from routes.certificates import cert_bp
@@ -8,8 +9,6 @@ from werkzeug.security import generate_password_hash
 import os
 from routes.stats import stats_bp
 
-
-
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -17,7 +16,19 @@ app.config["JWT_SECRET_KEY"] = "super-secret-key"
 
 db.init_app(app)
 jwt.init_app(app)
-CORS(app, origins=["http://localhost:5173", "https://psu-certificate-verification.netlify.app/"], supports_credentials=True)
+
+CORS(
+    app,
+    resources={r"/*": {"origins": [
+        "http://localhost:5173",
+        "https://psu-certificate-verification.netlify.app"
+    ]}},
+    supports_credentials=True,
+    allow_headers=["Content-Type", "Authorization"],
+    methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
+)
+
+
 
 app.register_blueprint(auth_bp)
 app.register_blueprint(courses_bp)
