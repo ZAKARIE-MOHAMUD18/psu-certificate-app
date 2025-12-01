@@ -145,15 +145,22 @@ def issue_certificate():
     c.setFont("Helvetica-Bold", 24)
     draw_centered_text(c, width / 2, height - 330, name.upper())
 
-    # Extended course completion text
+    # course completion text
     c.setFillColor(black)
     c.setFont("Helvetica", 15)
-    draw_centered_text(
-        c,
-        width / 2,
-        height - 370,
-        "has successfully completed all the requirements and coursework for the program of study in",
+
+    completion_text = (
+        "has successfully completed all the requirements and coursework "
+        "for the program of study in"
     )
+
+    # Split into two centered lines
+    line1 = "has successfully completed all the requirements and"
+    line2 = "coursework for the program of study in"
+
+    draw_centered_text(c, width / 2, height - 365, line1)
+    draw_centered_text(c, width / 2, height - 385, line2)
+
 
     # Course name
     c.setFillColor(dark_blue)
