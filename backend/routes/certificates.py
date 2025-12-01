@@ -267,6 +267,15 @@ def verify_certificate_by_number(certificate_number):
 
 
 # ---------------------------------------------------------
+# 3b. Backward-compatible verify route (/verify/<certificate_number>)
+# ---------------------------------------------------------
+@cert_bp.route("/verify/<certificate_number>", methods=["GET"])
+def verify_certificate_alias(certificate_number):
+    # reuse the logic from verify_certificate_by_number
+    return verify_certificate_by_number(certificate_number)
+
+
+# ---------------------------------------------------------
 # 4. DOWNLOAD PDF
 # ---------------------------------------------------------
 @cert_bp.route("/certificates/<int:id>/download", methods=["GET"])
