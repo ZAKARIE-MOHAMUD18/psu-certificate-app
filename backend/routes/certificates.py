@@ -8,6 +8,8 @@ import qrcode
 from datetime import datetime
 import secrets
 
+FRONTEND_URL= "https://psu-certificate-verification.netlify.app/"
+
 cert_bp = Blueprint("certificates", __name__, url_prefix="/admin")
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
