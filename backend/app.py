@@ -17,16 +17,8 @@ app.config["JWT_SECRET_KEY"] = "super-secret-key"
 db.init_app(app)
 jwt.init_app(app)
 
-CORS(
-    app,
-    resources={r"/*": {"origins": [
-        "http://localhost:5173",
-        "https://psu-certificate-verification.netlify.app"
-    ]}},
-    supports_credentials=True,
-    allow_headers=["Content-Type", "Authorization"],
-    methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
-)
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
+
 
 
 
@@ -34,6 +26,14 @@ app.register_blueprint(auth_bp)
 app.register_blueprint(courses_bp)
 app.register_blueprint(cert_bp)
 app.register_blueprint(stats_bp)
+
+@app.after_request
+def after_request(response):
+    response.headers.add("Access-Control-Allow-Headers", "Content-Type,Authorization")
+    response.headers.add("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS")
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
+
 
 # ---------------------------------------------------------
 # FIX for Flask: run DB initialization inside app context
