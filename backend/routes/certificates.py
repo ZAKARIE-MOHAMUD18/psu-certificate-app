@@ -75,7 +75,10 @@ def issue_certificate():
     qr_filename = f"{cert.id}.png"
     qr_path = os.path.join(QR_DIR, qr_filename)
 
-    qr_data = f"{os.getenv('FRONTEND_URL', 'http://127.0.0.1:5173')}/verify/{cert.certificate_number}"
+    
+
+    frontend_url = os.getenv('FRONTEND_URL', 'http://127.0.0.1:5173')
+    qr_data = f"{frontend_url}/verify/{cert.certificate_number}"
     img = qrcode.make(qr_data)
     img.save(qr_path)
 
@@ -254,7 +257,9 @@ def download_certificate(id):
         if not cert.qrcode_path:
             qr_filename = f"{cert.id}.png"
             qr_path = os.path.join(QR_DIR, qr_filename)
-            qr_data = f"http://127.0.0.1:5173/verify/{cert.certificate_number}"
+
+            frontend_url = os.getenv('FRONTEND_URL', 'http://127.0.0.1:5173')
+            qr_data = f"{frontend_url}/verify/{cert.certificate_number}"
             img = qrcode.make(qr_data)
             img.save(qr_path)
             cert.qrcode_path = qr_filename

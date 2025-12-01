@@ -51,7 +51,7 @@ with app.app_context():
 
     # Default courses
     if Course.query.count() == 0:
-        default_courses = ["Computer Science", "Business", "IT", "Engineering"]
+        default_courses = ["Computer Science", "Business", "IT", "Engineering", "Human Resource"]
         for title in default_courses:
             db.session.add(Course(title=title))
 
