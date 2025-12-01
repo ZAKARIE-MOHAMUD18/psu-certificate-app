@@ -145,10 +145,15 @@ def issue_certificate():
     c.setFont("Helvetica-Bold", 24)
     draw_centered_text(c, width / 2, height - 330, name.upper())
 
-    # Course completion text
+    # Extended course completion text
     c.setFillColor(black)
-    c.setFont("Helvetica", 16)
-    draw_centered_text(c, width / 2, height - 370, "has successfully completed the course of study in")
+    c.setFont("Helvetica", 15)
+    draw_centered_text(
+        c,
+        width / 2,
+        height - 370,
+        "has successfully completed all the requirements and coursework for the program of study in",
+    )
 
     # Course name
     c.setFillColor(dark_blue)
@@ -161,30 +166,35 @@ def issue_certificate():
     c.drawString(100, height - 480, f"Date of Issue: {datetime.utcnow().strftime('%B %d, %Y')}")
     c.drawString(100, height - 520, f"Certificate No: {cert_number}")
 
-    # QR Code
-    c.drawImage(qr_path, width - 200, 100, width=120, height=120)
+    # ---------- QR Code Above Signatures ----------
+    qr_x = (width / 2) - 60  # center horizontally
+    qr_y = 220               # place above signatures
+    c.drawImage(qr_path, qr_x, qr_y, width=120, height=120, mask="auto")
+
     c.setFont("Helvetica", 10)
-    draw_centered_text(c, width - 140, 80, "Scan to Verify")
+    draw_centered_text(c, width / 2, qr_y - 15, "Scan to Verify")
 
     # ---------- Signature Section (using real transparent PNGs) ----------
     pres_sig_path = os.path.join(SIGNATURE_DIR, "president.png")
     dean_sig_path = os.path.join(SIGNATURE_DIR, "dean.png")
 
+    # President Signature (Left)
     if os.path.exists(pres_sig_path):
-        c.drawImage(pres_sig_path, 80, 120, width=160, height=70, mask="auto")
+        c.drawImage(pres_sig_path, 80, 100, width=160, height=70, mask="auto")
     else:
         draw_centered_text(c, 160, 150, "_________________________")
 
-    draw_centered_text(c, 160, 100, "PSU-President")
-    draw_centered_text(c, 160, 85, "Puntland State University")
+    draw_centered_text(c, 160, 85, "PSU-President")
+    draw_centered_text(c, 160, 70, "Puntland State University")
 
+    # Dean Signature (Right)
     if os.path.exists(dean_sig_path):
-        c.drawImage(dean_sig_path, width - 260, 120, width=160, height=70, mask="auto")
+        c.drawImage(dean_sig_path, width - 260, 100, width=160, height=70, mask="auto")
     else:
         draw_centered_text(c, width - 180, 150, "_________________________")
 
-    draw_centered_text(c, width - 180, 100, "Dean of Faculty")
-    draw_centered_text(c, width - 180, 85, "Puntland State University")
+    draw_centered_text(c, width - 180, 85, "Dean of Faculty")
+    draw_centered_text(c, width - 180, 70, "Puntland State University")
 
     # Footer
     c.setFillColor(psu_blue)
@@ -192,7 +202,7 @@ def issue_certificate():
     draw_centered_text(
         c,
         width / 2,
-        60,
+        50,
         "This certificate is issued by Puntland State University and is valid upon verification",
     )
 
